@@ -22,7 +22,9 @@ Page({
     nowTemp: '',
     nowWeather: '',
     nowWeatherBackground: '',
-    hourlyWeather: []
+    hourlyWeather: [],
+    todayDate: '',
+    todayTemp: '',
   },
   onPullDownRefresh(){
     this.getNow(()=>{
@@ -43,6 +45,7 @@ Page({
        let result = res.data.result
        this.setNow(result)
        this.setHourlyWeather(result)
+       this.setTodayWeahter(result)
      },
      complete: ()=>{
        callback && callback()
@@ -81,6 +84,20 @@ Page({
     hourlyWeather[0].time = '现在'
     this.setData({
       hourlyWeather: hourlyWeather
+    })
+  },
+
+  setTodayWeahter(result){
+    let date = new Date()
+    this.setData({
+      todayTemp: `${result.today.minTemp}° - ${result.today.maxTemp}°`,
+      todayDate: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 今天`
+      //  getMonth 方法取月份，取到的是 从 0 开始的值，0 表示 1 月。
+    })
+  },
+  onTapDayWeahter(){
+    wx.navigateTo({
+      url: '/pages/list/list',
     })
   }
 
