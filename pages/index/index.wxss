@@ -28,6 +28,7 @@
   opacity: 0.5;
   text-align: center;
   margin-top: 10rpx;
+  height: 42rpx;
 }
 
 .location-wrapper {

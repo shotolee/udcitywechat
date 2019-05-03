@@ -4,10 +4,14 @@ const dayMap = ['星期日', '星期一', '星期二', '星期三', '星期四',
 Page({
   //一周的天数对应
   data: {
-    weekWeather:[1,2,3,4,5,6,7]
+    weekWeather:[1,2,3,4,5,6,7],
+    city: "广州市"
   },
   //页面加截 getWeekWeather 函数
-  onLoad() {
+  onLoad(options) {
+    this.setData({
+      city: options.city
+    })
     this.getWeekWeather()
   },
 
@@ -29,14 +33,12 @@ Page({
         //获取当前日期与时间
         time: new Date().getTime(),
         //城市参数
-        city: '西安市'
+        city: this.data.city
       },
-
-      //数据成功后，将数据传递给 setWeekWeather 函数
+        //数据成功后，将数据传递给 setWeekWeather 函数
       success: res=> {
         //先赋值给 result
         let result = res.data.result
-       console.log(result)
        // 再将 result 实参传递给 setWeekWeather 形参
         this.setWeekWeather(result)
       },
