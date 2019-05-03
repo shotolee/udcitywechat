@@ -16,6 +16,8 @@ const weatherColorMap = {
   'snow': '#aae1fc'
 }
 
+const QQMapWX = require
+('../../libs/qqmap-wx-jssdk.js')
 
 Page({
   data: {
@@ -32,6 +34,9 @@ Page({
     })
   },
   onLoad(){
+    this.qqmapsdk = new QQMapWX({
+      key: 'YZBBZ-YKYWD-GMB4B-POGVY-NYF3J-D3F45'
+    })
     this.getNow()
   },
   getNow(callback){
@@ -98,6 +103,26 @@ Page({
   onTapDayWeahter(){
     wx.navigateTo({
       url: '/pages/list/list',
+    })
+  },
+
+  //点击获取城市
+  onTapLocation() {
+    wx.getLocation({
+      //匿名函数中，调用mapsdk,获取坐标位置数据
+      success: res=> {
+        this.qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: res.latitude,
+            longitude: res.longitude
+          },
+          //获取成功坐标位置数据后，调用坐标转城市方法获得 city名称。
+          success: res=> {
+            let city = res.result.address_component.city
+            console.log(city)
+          }
+        })
+      },
     })
   }
 
